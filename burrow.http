@@ -1,0 +1,31 @@
+### https://github.com/linkedin/Burrow/wiki/http-request-list-clusters
+# /v3/kafka
+GET http://localhost:8000/v3/kafka
+
+### https://github.com/linkedin/Burrow/wiki/http-request-healthcheck
+# /burrow/admin
+GET http://localhost:8000/burrow/admin
+
+### https://github.com/linkedin/Burrow/wiki/http-request-kafka-cluster-detail
+# /v3/kafka/(cluster)
+GET http://localhost:8000/v3/kafka/{{cluster}}
+
+###
+# /v3/kafka/(cluster)/topic
+GET http://localhost:8000/v3/kafka/{{cluster}}/topic
+
+### https://github.com/linkedin/Burrow/wiki/http-request-list-consumers
+# /v3/kafka/(cluster)/consumer
+GET http://localhost:8000/v3/kafka/{{cluster}}/consumer
+
+### https://github.com/linkedin/Burrow/wiki/http-request-consumer-group-status
+# /v3/kafka/(cluster)/consumer/(group)
+GET http://localhost:8000/v3/kafka/{{cluster}}/consumer/{{groupId}}/status
+
+### https://github.com/linkedin/Burrow/wiki/http-request-consumer-group-status
+GET http://localhost:8000/v3/kafka/{{cluster}}/consumer/{{groupId}}/lag
+
+### https://github.com/linkedin/Burrow/wiki/http-request-get-topic-detail
+GET http://localhost:8000/v3/kafka/{{cluster}}/topic/{{topic}}
+
+

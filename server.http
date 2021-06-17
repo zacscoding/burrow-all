@@ -1,0 +1,21 @@
+### Start producer
+POST http://localhost:8900/v1/producer/:name/:topic?interval=300ms
+Content-Type: application/json
+
+### Stop producer
+DELETE http://localhost:8900/v1/producer/:name/:topic
+
+### Start consumer
+POST http://localhost:8900/v1/consumer/:name/:topic?interval=&groupId=consumers-1&shouldFail=false
+
+### Update consumer
+PUT http://localhost:8900/v1/consumer/:name/:topic?interval=0s&shouldFail=true
+
+### Stop consumer
+DELETE http://localhost:8900/v1/consumer/:name/:topic?groupId=consumers-1
+
+### Check open alerts from burrow
+GET https://localhost:8900/v1/alerts/open
+
+### Check close alerts from burrow
+GET https://localhost:8900/v1/alerts/close
