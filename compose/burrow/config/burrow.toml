@@ -3,33 +3,48 @@ servers = ["zoo1:2181"]
 timeout = 6
 root-path = "/burrow"
 
-[client-profile.profile]
+[client-profile.test]
+client-id = "burrow-test"
 kafka-version = "2.1.0"
-client-id = "docker-client"
 
 [cluster.local]
-client-profile = "profile"
 class-name = "kafka"
 servers = ["kafka1:19092", "kafka1:19093", "kafka1:19094"]
-topic-refresh = 10
-offset-refresh = 10
-groups-reaper-refresh = 30
+client-profile = "test"
+topic-refresh = 5
+offset-refresh = 35
+groups-reaper-refresh = 0
 
 [consumer.local]
 class-name = "kafka"
 cluster = "local"
 servers = ["kafka1:19092", "kafka1:19093", "kafka1:19094"]
-group-denylist = "^(console-consumer-|python-kafka-consumer-).*$"
-group-allowlist = ""
-
-[consumer.local_zk]
-class-name = "kafka_zk"
-cluster = "local"
-servers = ["zoo1:2181"]
-zookeeper-path = "/local"
-zookeeper-timeout = 30
+client-profile = "test"
 group-denylist = "^(console-consumer-|python-kafka-consumer-).*$"
 group-allowlist = ""
 
 [httpserver.default]
 address = ":8000"
+
+[storage.default]
+class-name = "inmemory"
+workers = 20
+intervals = 5
+expire-group = 604800
+min-distance = 1
+
+[notifier.default]
+class-name="http"
+url-open="http://burrow-all:8900/v1/event"
+url-close="http://burrow-all:8900/v1/event"
+# report interval
+interval=5
+timeout=5
+keepalive=30
+extras={ api_key="REDACTED", app="burrow", tier="STG", fabric="mydc" }
+template-open="/etc/burrow/http-post.tmpl"
+template-close="/etc/burrow/http-delete.tmpl"
+method-close="DELETE"
+send-close=true
+threshold=2
+

@@ -59,7 +59,6 @@ func (p *Producer) mainLoop() {
 	ticker := time.NewTicker(p.cfg.Interval)
 	defer func() {
 		ticker.Stop()
-		p.client.Close()
 	}()
 
 	count := 0

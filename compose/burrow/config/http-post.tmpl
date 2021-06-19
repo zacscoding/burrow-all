@@ -1,0 +1,1 @@
+{"block":false,"events":[{"id":"{{.ID}}","event":{"severity":"{{if eq .Result.Status 2}}WARN{{else}}ERR{{end}}","group":"{{.Result.Group}}","start":"{{.Start.Format "Jan 02, 2006 15:04:05 UTC"}}","complete":{{.Result.Complete}},"partitions":{{.Result.Partitions | jsonencoder}}}}]}

@@ -67,7 +67,8 @@ func (c *Consumer) mainLoop() {
 	ctx := context.Background()
 	for {
 		if err := c.client.Consume(ctx, []string{c.cfg.Topic}, c); err != nil {
-			if sarama.ErrClosedClient == err {
+			switch err {
+			case sarama.ErrClosedClient, sarama.ErrClosedConsumerGroup:
 				log.Printf("[Consumer-%s] terminate", c.cfg.Name)
 				return
 			}
@@ -88,21 +89,21 @@ func (c *Consumer) Cleanup(session sarama.ConsumerGroupSession) error {
 
 func (c *Consumer) ConsumeClaim(session sarama.ConsumerGroupSession, claim sarama.ConsumerGroupClaim) error {
 	for msg := range claim.Messages() {
+		c.proceed++
+		if c.proceed%50 == 0 {
+			log.Printf("[Consumer-%s] consume message proceed: %d", c.cfg.Name, c.proceed)
+		}
+		// skip to mark message if shouldFail is "true"
+		if c.cfg.ShouldFail {
+			continue
+		}
 		if c.cfg.ConsumeInterval != 0 {
 			timer := time.NewTimer(c.lastConsume.Add(c.cfg.ConsumeInterval).Sub(time.Now()))
 			<-timer.C
 			c.lastConsume = time.Now()
 		}
-		c.proceed++
-		if c.proceed%50 == 0 {
-			log.Printf("[Consumer-%s] consume message proceed: %d", c.cfg.Name, c.proceed)
-		}
-		if c.cfg.ShouldFail {
-			continue
-		} else {
-			session.MarkMessage(msg, "")
-			session.Commit()
-		}
+		session.MarkMessage(msg, "")
+		session.Commit()
 	}
 	return nil
 }
