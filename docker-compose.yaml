@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-  burrow-all:
-    image: burrow-all/server
+  burrow-demo:
+    image: burrow-demo/server
     build:
       context: .
-    container_name: burrow-all
+    container_name: burrow-demo
     ports:
       - "8900:8900"
     environment:

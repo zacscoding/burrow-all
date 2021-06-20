@@ -15,12 +15,12 @@ func (s *Server) handleGetEvents(ctx echo.Context) error {
 	defer s.emutex.RUnlock()
 
 	if eventType == "" || eventType == "open" {
-		var openEvents []map[string]interface{}
+		openEvents := make([]map[string]interface{}, len(s.openEvents))
 		copy(openEvents, s.openEvents)
 		result["open"] = openEvents
 	}
 	if eventType == "" || eventType == "close" {
-		var closeEvents []map[string]interface{}
+		closeEvents := make([]map[string]interface{}, len(s.closeEvents))
 		copy(closeEvents, s.closeEvents)
 		result["close"] = closeEvents
 	}

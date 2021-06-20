@@ -35,8 +35,8 @@ min-distance = 1
 
 [notifier.default]
 class-name="http"
-url-open="http://burrow-all:8900/v1/event"
-url-close="http://burrow-all:8900/v1/event"
+url-open="http://burrow-demo:8900/v1/event"
+url-close="http://burrow-demo:8900/v1/event"
 # report interval
 interval=5
 timeout=5
